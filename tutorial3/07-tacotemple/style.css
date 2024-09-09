@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1em;
+  max-width: 60em;
+  margin: 0 auto;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border: 0.1rem solid lightgray;
+  /* max-width: 30rem; */
+  /* min-height: fit-content; */
+  /* height: 12rem; */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.025);
+}
+
+.card > img {
+  margin: auto 0;
+}
+
+.card > div {
+  display: grid;
+  /* grid-template-rows: 1fr 1fr 1fr; */
+  height: 100%;
+}
+
+.card > div h2 {
+  font-size: 1.75em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card > div:not(:first-child) {
+  font-size: 1.2em;
+}
+
+.card > div span {
+  align-self: end;
+}
+
+/* .card div { */
+/*   font-color: lightgray; */
+/*   font-size: 1.2em; */
+/* } */
+/**/
+/* .card div > h2 { */
+/*   font-weight: bold; */
+/*   font-color: black; */
+/*   font-size: 1.5rem; */
+/*   margin: 0; */
+/* } */
+/**/
