@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Photo App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./public/output.css" />
+    <script src="js/main.js" type="module" defer></script>
+  </head>
+
+  <body class="bg-gray-100">
+    <div id="nav">
+      <!-- to be populated by code -->
+    </div>
+
+    <aside class="fixed top-[100px] left-[63vw] w-70 hidden md:block">
+      <header id="user" class="flex gap-4 items-center"></header>
+      <div id="suggestions" class="mt-4">
+        <p class="text-base text-gray-400 font-bold mb-4">
+          Suggestions for you
+        </p>
+      </div>
+    </aside>
+
+    <main
+      class="mt-[100px] md:max-w-[61vw] md:mr-[50px] px-6 md:pl-[5vw] lg:pl-[10vw]"
+    >
+      <!-- Stories -->
+      <header
+        id="stories"
+        class="flex gap-6 bg-white border p-2 overflow-hidden mb-6"
+      ></header>
+
+      <div id="posts"></div>
+    </main>
+  </body>
+</html>
