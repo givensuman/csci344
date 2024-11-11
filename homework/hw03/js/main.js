@@ -10,6 +10,13 @@ const api = async (endpoint, args = {}) =>
     ...args,
   });
 
+const headers = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+};
+
 async function initializeScreen() {
   if (!token) {
     await getToken().catch((err) => console.error(err));
@@ -54,10 +61,8 @@ async function getUser() {
 
 async function getSuggestion() {
   const suggestions = await api(`/suggestions`).then(
-    async (res) => await res.json(),
+    async (res) => await res.json()
   );
-
-  console.log(suggestions);
 
   const container = document.querySelector("#suggestions");
 
@@ -80,8 +85,6 @@ async function getSuggestion() {
 async function getStories() {
   const stories = await api(`/stories`).then((res) => res.json());
 
-  console.log(stories);
-
   const container = document.querySelector("#stories");
 
   stories.forEach((story) => {
@@ -102,8 +105,6 @@ async function getStories() {
 async function getPosts() {
   const posts = await api(`/posts?limit=10`).then((res) => res.json());
 
-  console.log(posts);
-
   const container = document.querySelector("#posts");
 
   console.log(posts[0]);
@@ -113,7 +114,9 @@ async function getPosts() {
     element.className = "bg-white border mb-10";
     element.innerHTML = `
           <div class="p-4 flex justify-between">
-            <h3 class="text-lg font-Comfortaa font-bold">${post.user.username}</h3>
+            <h3 class="text-lg font-Comfortaa font-bold">${
+              post.user.username
+            }</h3>
             <button class="icon-button">
               <i class="fas fa-ellipsis-h"></i>
             </button>
@@ -131,8 +134,7 @@ async function getPosts() {
                 <button><i class="far fa-comment"></i></button>
                 <button><i class="far fa-paper-plane"></i></button>
               </div>
-              <div>
-                ${handleBookmarkButton(post)}
+              <div id="bookmark-container">
               </div>
             </div>
             <p class="font-bold mb-3">${post.likes.length} likes</p>
@@ -157,6 +159,13 @@ async function getPosts() {
             <button class="text-blue-500 py-2">Post</button>
           </div>
 `;
+    element
+      .querySelector("#button-container")
+      .appendChild(handleLikeButton(post));
+
+    element
+      .querySelector("#bookmark-container")
+      .appendChild(handleBookmarkButton(post));
 
     container.appendChild(element);
   });
@@ -185,23 +194,61 @@ const handlePostComments = (comments) => {
 const handleLikeButton = (post) => {
   const button = document.createElement("button");
   button.onclick = () => handleLike(post);
-  button.ariaLabel = "Like Post";
-  button.innerHTML = `<i class="far fa-heart"></i>`;
-  return button
+
+  if (post.current_user_like_id) {
+    button.innerHTML = `<i aria-label = "Like Post" class="far fa-solid fa-heart" style="color: red;">/i>`;
+  } else {
+    button.innerHTML = `<i aria-label = "Unlike Post" class="far fa-heart"></i>`;
+  }
+
+  return button;
 };
 
 const handleLike = async (post) => {
-  api(`/api/likes/${post.id}`, {
-    method: post.current_user_like_id ? "DELETE" : "POST,
-  });
+  if (!post.current_user_like_id) {
+    await fetch(rootURL + `/api/likes/${post.id}`, {
+      ...headers,
+      method: "POST",
+      body: JSON.stringify({
+        post_id: post.id,
+      }),
+    });
+  } else {
+    await fetch(rootURL + "/api/likes", {
+      ...headers,
+      method: "DELETE",
+    });
+  }
 };
 
 const handleBookmarkButton = (post) => {
+  const button = document.createElement("button");
+  button.onclick = () => handleBookmark(post);
+
   if (post.current_user_bookmark_id) {
-    return `<button aria-label="Unbookmark Post" style="color: black;"><i class="far fa-bookmark fa-solid"></i></button>`;
+    button.innerHTML = `<button aria-label="Unbookmark Post" style="color: black;"><i class="far fa-bookmark fa-solid"></i></button>`;
+  } else {
+    button.innerHTML = `<button aria-label="Bookmark Post"><i class="far fa-bookmark"></i></button>`;
   }
 
-  return `<button aria-label="Bookmark Post"><i class="far fa-bookmark"></i></button>`;
+  return button;
+};
+
+const handleBookmark = async (post) => {
+  if (!post.current_user_bookmark_id) {
+    await fetch(rootURL + `/api/likes/${post.id}`, {
+      ...headers,
+      method: "POST",
+      body: JSON.stringify({
+        post_id: post.id,
+      }),
+    });
+  } else {
+    await fetch(rootURL + "/api/likes", {
+      ...headers,
+      method: "DELETE",
+    });
+  }
 };
 
 // after all of the functions are defined, invoke initialize at the bottom:
