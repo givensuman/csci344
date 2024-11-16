@@ -1,0 +1,17 @@
+{
+  "name": "hw04",
+  "scripts": {
+    "build": "vite build",
+    "dev": "concurrently \"tailwindcss -i ./src/css/input.css -o public/output.css --watch\" \"vite dev\""
+  },
+  "devDependencies": {
+    "concurrently": "*",
+    "tailwindcss": "*",
+    "vite": "*"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.59.20",
+    "react": "*",
+    "react-dom": "*"
+  }
+}
