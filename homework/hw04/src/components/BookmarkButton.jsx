@@ -26,7 +26,7 @@ export default function BookmarkButton({ post, token, ...props }) {
   };
 
   return (
-    <button ariaLabel={ariaLabel} onClick={handleBookmark}>
+    <button aria-label={ariaLabel} onClick={handleBookmark}>
       <i className={className}></i>
     </button>
   );

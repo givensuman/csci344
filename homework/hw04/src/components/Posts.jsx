@@ -7,7 +7,6 @@ export default function Posts({ token }) {
 
   async function getPosts() {
     const data = await getDataFromServer(token, "/api/posts");
-    console.log(data);
     setPosts(data);
   }
 
